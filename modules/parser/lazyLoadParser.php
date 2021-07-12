@@ -38,11 +38,10 @@ class lazyLoadParser extends BaseParser
                                 var all_links_json = JSON.stringify(all_links);
 
                                 return all_links_json;
-
-                                phantom.exit();
                             }
                         });
                         fs.write('%s', articlesJsonLinks);
+                        phantom.exit();
                     }
                 }, 200);
             });
