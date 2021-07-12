@@ -43,7 +43,7 @@ abstract class BaseParser
         $hash = md5($this->url) . "_{$this->selector}";
         $this->scriptFileName = $hash . '.js';
         chdir(__DIR__ . '/js');
-        return file_put_contents($this->scriptFileName, $this->getReadyJs());
+        return file_exists($this->scriptFileName) ? true : file_put_contents($this->scriptFileName, $this->getReadyJs());
     }
 
     /**
