@@ -14,17 +14,17 @@ class ParserStarter
      * @param string $siteUrl section with articles or news, example: 'https://tjournal.ru/news'
      * @param string $articleSelector css-class of <a> tag with link of article, example: 'news-feed__item'
      * @param bool $lazyLoadOfArticles if lazy load articles by onscroll then this argument is true,
-     * else if used pagination - then false
+     * @param int $countOfArticles count of needed last articles/news
      * @return void
      */
-    public function __construct(string $siteUrl, string $articleSelector, bool $lazyLoadOfArticles = true)
+    public function __construct(string $siteUrl, string $articleSelector, int $countOfArticles, bool $lazyLoadOfArticles = true)
     {
         $url = parse_url($siteUrl);
         $siteUrl = "{$url['scheme']}://{$url['host']}";
         if ($siteUrl && $articleSelector) {
             $this->run($lazyLoadOfArticles ?
-                new lazyLoadParser($siteUrl, $articleSelector) :
-                new paginatedParser($siteUrl, $articleSelector));
+                new lazyLoadParser($siteUrl, $articleSelector, $countOfArticles) :
+                new paginatedParser($siteUrl, $articleSelector, $countOfArticles));
         }
     }
 
