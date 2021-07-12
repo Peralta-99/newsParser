@@ -12,6 +12,7 @@ abstract class BaseParser
     protected string $readyToExecuteJs;
     private string $scriptFileName;
     protected int $neededCountOfArticles;
+    private string $jsonFileName;
 
     public function __construct(string $url, string $selector, int $neededCountOfArticles)
     {
@@ -19,13 +20,17 @@ abstract class BaseParser
             $this->url = $url;
             $this->selector = $selector;
             $this->neededCountOfArticles = $neededCountOfArticles;
+            $hash = md5($this->url) . "_{$this->selector}_{$this->neededCountOfArticles}";
+            $this->scriptFileName = $hash . '.js';
+            $this->jsonFileName = $hash . '.json';
         }
     }
 
     abstract public function executeParse();
 
     public function setVariablesInTemplateJs() {
-        $this->readyToExecuteJs = sprintf($this->getTemplateJsFileOfParse(), $this->url, $this->selector, $this->neededCountOfArticles);
+        $this->readyToExecuteJs = sprintf($this->getTemplateJsFileOfParse(),
+            $this->neededCountOfArticles, $this->url, $this->selector, $this->jsonFileName);
     }
 
     private function getReadyJs() {
@@ -42,8 +47,6 @@ abstract class BaseParser
     }
 
     private function writeToJsFile() {
-        $hash = md5($this->url) . "_{$this->selector}_{$this->neededCountOfArticles}";
-        $this->scriptFileName = $hash . '.js';
         chdir(__DIR__ . '/js');
         return file_exists($this->scriptFileName) ? true : file_put_contents($this->scriptFileName, $this->getReadyJs());
     }
