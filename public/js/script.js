@@ -10,7 +10,7 @@ $('#submitAjaxForm').click(function() {
     const siteUrl = $('#url').val();
     const articleSelector = $('#selector').val();
     const countOfArticles = $('#count').val();
-    const lazyLoadOfArticles = $('#lazy_load').val();
+    const lazyLoadOfArticles = !!$('#lazy_load').val();
     if (siteUrl && articleSelector && countOfArticles) {
         loading(true);
         $.ajax({
