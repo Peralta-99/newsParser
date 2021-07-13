@@ -8,6 +8,8 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('../css/style.css') }}">
+        <!-- jQuery -->
+        <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
     </head>
     <body>
         <div class="grid justify-center min-h-screen sm:items-center">
@@ -31,7 +33,9 @@
                 <span><input checked type="checkbox" id="lazy_load" name="lazy_load" value="" size="30" /></span>
             </div>
 
-            <button>go</button>
+            <button id="submitAjaxForm">Go</button>
         </div>
+        <div id="loader"></div>
     </body>
+    <script type="text/javascript" src="{{ asset('../js/script.js') }}"></script>
 </html>

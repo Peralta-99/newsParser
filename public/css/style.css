@@ -51,3 +51,15 @@ div.text-input-item {
     width: 100%;
     clear: both;
 }
+#loader {
+    display: none;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, .7) url(//cloud.esoft.digital/riesstatic/no-version/themes/grey/img/ajax_loader.svg);
+    top: 0px;
+    left: 0px;
+    z-index: 1010;
+    background-position: 50% 50%;
+    background-repeat: no-repeat no-repeat;
+}
