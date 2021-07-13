@@ -17,4 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/getScrapedArticles/{fileName}', 'App\Http\Controllers\ArticlesController@getScrapedArticles');
+
 Route::post('/getArticles', 'App\Http\Controllers\ArticlesController@index');

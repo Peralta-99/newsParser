@@ -32,7 +32,7 @@ $('#submitAjaxForm').click(function() {
             },
             success: function(data){
                 if (data.jsonFileName) {
-                    window.location = `/articlesOfSite/${data.jsonFileName}`;
+                    window.location = `/getScrapedArticles/${data.jsonFileName}`;
                 } else {
                     alert('Ошибка');
                 }
