@@ -51,5 +51,17 @@ class lazyLoadParser extends BaseParser
     public function executeParse()
     {
         $this->executeFileWithPhantomJs();
+        $this->writeDataToDb();
+    }
+
+    protected function writeDataToDb()
+    {
+        chdir(__DIR__ . '/js');
+        if (file_exists($this->getJsonFileName())) {
+            $arrOfLinks = file_get_contents($this->getJsonFileName());
+            foreach ($arrOfLinks as item) {
+                $this->scrapeFullArticle(item);
+            }
+        }
     }
 }
