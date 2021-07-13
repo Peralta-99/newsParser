@@ -31,7 +31,11 @@ $('#submitAjaxForm').click(function() {
                 loading(false);
             },
             success: function(data){
-
+                if (data.jsonFileName) {
+                    window.location = `/articlesOfSite/${data.jsonFileName}`;
+                } else {
+                    alert('Ошибка');
+                }
             }
         });
     } else return;

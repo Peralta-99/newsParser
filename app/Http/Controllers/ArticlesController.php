@@ -9,8 +9,7 @@ class ArticlesController extends Controller
 {
     public function index() {
         $requestData = request()->only(['siteUrl', 'articleSelector', 'countOfArticles', 'lazyLoadOfArticles']);
-        new ParserStarter(...array_values($requestData));
-        return view('articles.index')
-            ->with('articles', (Article::query())->limit($requestData['countOfArticles']));
+        $starterInstance = new ParserStarter(...array_values($requestData));
+        return response()->json(['jsonFileName' => $starterInstance->fileName]);
     }
 }

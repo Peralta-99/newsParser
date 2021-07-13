@@ -9,6 +9,10 @@ class ParserStarter
     protected string $path;
     protected string $url;
     protected string $selector;
+    /**
+     * @var string
+     */
+    public string $fileName;
 
     /**
      * @param string $siteUrl section with articles or news, example: 'https://tjournal.ru/news'
@@ -31,5 +35,6 @@ class ParserStarter
     protected function run(BaseParser $parserInstance) {
         $parserInstance->setVariablesInTemplateJs();
         $parserInstance->executeParse();
+        $this->fileName = substr($parserInstance->getJsonFileName(), 0, -5);
     }
 }

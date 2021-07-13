@@ -51,6 +51,10 @@ abstract class BaseParser
         return file_exists($this->scriptFileName) ? true : file_put_contents($this->scriptFileName, $this->getReadyJs());
     }
 
+    public function getJsonFileName() {
+        return $this->jsonFileName;
+    }
+
     /**
      * @return string
      */
