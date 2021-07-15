@@ -27,7 +27,7 @@ class lazyLoadParser extends BaseParser
                         clearInterval(intervalId);
                         var articlesJsonLinks = page.evaluate(function() {
                             var all_links = [];
-                            var links = document.querySelectorAll('a.content-feed__link');
+                            var links = document.querySelectorAll('a.%s');
                             if(!!links) {
                                 [].forEach.call(links, function(link){
                                     all_links.push(
@@ -58,10 +58,29 @@ class lazyLoadParser extends BaseParser
     {
         chdir(__DIR__ . '/js');
         if (file_exists($this->getJsonFileName())) {
-            $arrOfLinks = file_get_contents($this->getJsonFileName());
-            foreach ($arrOfLinks as $item) {
-                $this->scrapeFullArticle($item);
+            $arrOfLinks = json_decode(file_get_contents($this->getJsonFileName()));
+            if (is_array($arrOfLinks)) {
+                foreach ($arrOfLinks as $item) {
+                    $this->scrapeFullArticle($item);
+                }
             }
         }
+    }
+
+    protected function getArticleScraperScript()
+    {
+        return "
+            const page = require('webpage').create();
+            page.onConsoleMessage = function(msg) {
+                console.log(msg);
+            }
+            page.open('%s', function(status) {
+                if (status == 'success') {
+                    console.log('hi');
+                    phantom.exit();
+
+                }
+            });
+        ";
     }
 }

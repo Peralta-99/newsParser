@@ -13,6 +13,7 @@ abstract class BaseParser
     private string $scriptFileName;
     protected int $neededCountOfArticles;
     private string $jsonFileName;
+    protected string $scraperOfArticleFileName;
 
     public function __construct(string $url, string $selector, int $neededCountOfArticles)
     {
@@ -28,9 +29,13 @@ abstract class BaseParser
 
     abstract public function executeParse();
 
+    abstract protected function writeDataToDb();
+
+    abstract protected function getArticleScraperScript();
+
     public function setVariablesInTemplateJs() {
         $this->readyToExecuteJs = sprintf($this->getTemplateJsFileOfParse(),
-            $this->neededCountOfArticles, $this->url, $this->selector, $this->jsonFileName);
+            $this->neededCountOfArticles, $this->url, $this->selector, $this->selector, $this->jsonFileName);
     }
 
     private function getReadyJs() {
@@ -53,6 +58,22 @@ abstract class BaseParser
 
     public function getJsonFileName() {
         return $this->jsonFileName;
+    }
+
+    protected function scrapeFullArticle($articleFullLink) {
+        $articleScraperScript = sprintf($this->getArticleScraperScript(), $articleFullLink);
+        $this->scraperOfArticleFileName = md5($articleFullLink) . '_scraper_of_article.js';
+        chdir(__DIR__ . '/js/linkScrapers');
+        $fileReady = file_exists($this->scraperOfArticleFileName) ? true : file_put_contents($this->scraperOfArticleFileName, $articleScraperScript);
+        if ($fileReady) {
+            $dir = getcwd();
+            $pathToExecuteJsScraperOfArticle = "{$this->pathToBinPhantom} {$dir}/{$this->scraperOfArticleFileName}";
+            exec($pathToExecuteJsScraperOfArticle);
+        }
+    }
+
+    private function saveInDatabase($articleFullData) {
+        // TODO: Implement saveInDatabase() method.
     }
 
     /**
