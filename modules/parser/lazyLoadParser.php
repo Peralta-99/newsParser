@@ -75,13 +75,43 @@ class lazyLoadParser extends BaseParser
             page.onConsoleMessage = function(msg) {
                 console.log(msg);
             }
-            page.open('%s', function(status) {
-                if (status == 'success') {
-                    console.log('hi');
-                    phantom.exit();
 
-                }
-            });
+            page.open('%s', function(status) {
+            if (status == 'success') {
+                page.includeJs('https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js', function() {
+                    const articleInfo = page.evaluate(function() {
+                        const title = $('h1').first().text();
+                        const text_overview = $('div.article__text__overview > span').first().text();
+                        const image_url = $('img.article__main-image__image').first().attr('src');
+                        var article_text_body = '';
+                        $('div.article__text').children().each(function() {
+                            if ($(this).is('p')) {
+                                article_text_body += $(this).text();
+                            } else if ($(this).is('ul')) {
+                                $(this).children().each(function() {
+                                    article_text_body += $(this).text();
+                                });
+                            } else if ($(this).is('div.article__subheader')) {
+                                article_text_body += $(this).children().first().text();
+                            }
+                        });
+                        const article_url = '%s';
+                        const pulled_from_the_file = '%s';
+                        const articleData = {
+                            'title': title,
+                            'image_url': image_url,
+                            'text_overview': text_overview,
+                            'article_text_body': article_text_body,
+                            'article_url': article_url,
+                            'pulled_from_the_file': pulled_from_the_file
+                        };
+                        return JSON.stringify(articleData);
+                    });
+                    console.log(articleInfo);
+                    phantom.exit();
+                });
+            }
+});
         ";
     }
 }
