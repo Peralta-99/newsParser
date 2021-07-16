@@ -3,6 +3,7 @@
 
 namespace Modules\parser;
 
+use App\Models\Article;
 
 class lazyLoadParser extends BaseParser
 {
@@ -64,8 +65,10 @@ class lazyLoadParser extends BaseParser
                 chdir(__DIR__ . '/js/linkScrapers');
                 foreach ($arrOfLinks as $item) {
                     $this->scrapeFullArticle($item);
-                    if (file_exists(md5($item) . '.json')) {
-                        
+                    $articleDataJsonFileName = md5($item) . '.json';
+                    if (file_exists($articleDataJsonFileName)) {
+                        $articleData = json_decode(file_get_contents($articleDataJsonFileName), true);
+                        Article::firstOrCreate(['article_url' => $articleData['article_url']], $articleData);
                     }
                 }
             }
