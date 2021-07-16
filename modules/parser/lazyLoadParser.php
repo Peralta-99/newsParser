@@ -61,8 +61,12 @@ class lazyLoadParser extends BaseParser
             $arrOfLinks = json_decode(file_get_contents($this->getJsonFileName()));
             array_splice($arrOfLinks, $this->neededCountOfArticles);
             if (is_array($arrOfLinks)) {
+                chdir(__DIR__ . '/js/linkScrapers');
                 foreach ($arrOfLinks as $item) {
                     $this->scrapeFullArticle($item);
+                    if (file_exists(md5($item) . '.json')) {
+                        
+                    }
                 }
             }
         }
