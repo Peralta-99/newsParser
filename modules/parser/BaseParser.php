@@ -61,7 +61,7 @@ abstract class BaseParser
     }
 
     protected function scrapeFullArticle($articleFullLink) {
-        $articleScraperScript = sprintf($this->getArticleScraperScript(), $articleFullLink);
+        $articleScraperScript = sprintf($this->getArticleScraperScript(), $articleFullLink, $articleFullLink, $this->jsonFileName);
         $this->scraperOfArticleFileName = md5($articleFullLink) . '_scraper_of_article.js';
         chdir(__DIR__ . '/js/linkScrapers');
         $fileReady = file_exists($this->scraperOfArticleFileName) ? true : file_put_contents($this->scraperOfArticleFileName, $articleScraperScript);
