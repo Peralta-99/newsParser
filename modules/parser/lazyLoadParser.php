@@ -72,11 +72,12 @@ class lazyLoadParser extends BaseParser
     {
         return "
             const page = require('webpage').create();
+            const fs = require('fs');
             page.onConsoleMessage = function(msg) {
                 console.log(msg);
             }
 
-            page.open('%s', function(status) {
+            page.open('%2\$s', function(status) {
             if (status == 'success') {
                 page.includeJs('https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js', function() {
                     const articleInfo = page.evaluate(function() {
@@ -95,8 +96,8 @@ class lazyLoadParser extends BaseParser
                                 article_text_body += $(this).children().first().text();
                             }
                         });
-                        const article_url = '%s';
-                        const pulled_from_the_file = '%s';
+                        const article_url = '%2\$s';
+                        const pulled_from_the_file = '%1\$s';
                         const articleData = {
                             'title': title,
                             'image_url': image_url,
@@ -107,7 +108,7 @@ class lazyLoadParser extends BaseParser
                         };
                         return JSON.stringify(articleData);
                     });
-                    console.log(articleInfo);
+                    fs.write('%3\$s' + '.json', articleInfo);
                     phantom.exit();
                 });
             }
