@@ -19,4 +19,6 @@ Route::get('/', function () {
 
 Route::get('/getScrapedArticles/{fileName}', 'App\Http\Controllers\ArticlesController@getScrapedArticles');
 
+Route::get('/getFullArticle/{articleId}', 'App\Http\Controllers\ArticlesController@getFullArticle');
+
 Route::post('/getArticles', 'App\Http\Controllers\ArticlesController@index');

@@ -18,4 +18,9 @@ class ArticlesController extends Controller
         return view('articles.index')
             ->with('articles', Article::where('pulled_from_the_file', $fileName . '.json')->get());
     }
+
+    public function getFullArticle(Request $request, $ArticleId) {
+        return view('articles.show')
+            ->with('articleData', Article::find($ArticleId));
+    }
 }
