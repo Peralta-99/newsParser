@@ -8,7 +8,9 @@
     <br>
     <span> {{ $articleData->text_overview }} </span>
     <br>
-    <img width="700" src={{ $articleData->image_url }} >
+    @if(!empty($articleData->image_url))
+        <img width="700" src={{ $articleData->image_url }} >
+    @endif
     <br>
     <p> {{ $articleData->article_text_body }} </p>
     <br>
