@@ -20,7 +20,7 @@ class lazyLoadParser extends BaseParser
                 const intervalId = setInterval(function() {
                     if(numberOfAvailableArticles < needArticlesCounter) {
                         numberOfAvailableArticles = page.evaluate(function() {
-                            window.scrollBy(0,500);
+                            window.scrollBy(0,250);
                             return document.querySelectorAll('a.%s').length;
                         });
                     }
@@ -44,7 +44,7 @@ class lazyLoadParser extends BaseParser
                         fs.write('%s', articlesJsonLinks);
                         phantom.exit();
                     }
-                }, 200);
+                }, 1000);
             });
         ";
     }
