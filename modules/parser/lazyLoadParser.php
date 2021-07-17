@@ -64,12 +64,14 @@ class lazyLoadParser extends BaseParser
             if (is_array($arrOfLinks)) {
                 chdir(__DIR__ . '/js/linkScrapers');
                 foreach ($arrOfLinks as $item) {
-                    $this->scrapeFullArticle($item);
-                    $articleDataJsonFileName = md5($item) . '.json';
-                    if (file_exists($articleDataJsonFileName)) {
-                        $articleData = json_decode(file_get_contents($articleDataJsonFileName), true);
-                        Article::firstOrCreate(['article_url' => $articleData['article_url']], $articleData);
-                    }
+                    if (strpos($item, 'traffic.rbc.ru') === false) {// we don't need advertising integration
+                        $this->scrapeFullArticle($item);
+                        $articleDataJsonFileName = md5($item) . '.json';
+                        if (file_exists($articleDataJsonFileName)) {
+                            $articleData = json_decode(file_get_contents($articleDataJsonFileName), true);
+                            Article::firstOrCreate(['article_url' => $articleData['article_url']], $articleData);
+                        }
+                    } else continue;
                 }
             }
         }

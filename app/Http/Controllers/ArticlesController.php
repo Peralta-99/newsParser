@@ -21,6 +21,6 @@ class ArticlesController extends Controller
 
     public function getFullArticle(Request $request, $ArticleId) {
         return view('articles.show')
-            ->with('articleData', Article::find($ArticleId));
+            ->with('articleData', Article::findOrFail($ArticleId));
     }
 }
